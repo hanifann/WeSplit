@@ -15,6 +15,18 @@ struct ContentView: View {
     @State private var numberOfPeople = 2
     @State private var tipPercentage = 0
     
+    var totalPerPerson: Double {
+        let peopleCount = Double(numberOfPeople+2)
+        let tipSelection = Double(tipPercentage)
+        
+        let tipVaule = checkAmount / 100 * tipSelection
+        let grandTotal = checkAmount + tipVaule
+        let amountPerPerson = grandTotal / peopleCount
+        
+        return amountPerPerson
+    }
+    
+    
     var body: some View {
         NavigationStack {
             Form {
@@ -37,6 +49,10 @@ struct ContentView: View {
                         }
                     }
                     .pickerStyle(.segmented)
+                }
+                
+                Section {
+                    Text(totalPerPerson, format: .currency(code: Locale.current.currency?.identifier ?? "USD"))
                 }
             }
             .navigationTitle("WeSplit")
